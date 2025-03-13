@@ -106,6 +106,49 @@ Bạn có thể cấu hình ứng dụng bằng cách chỉnh sửa file `.env`:
 - **LOG_LEVEL**: Level của log (debug, info, warn, error).
 - **TRADE_NOTIONAL_THRESHOLD**: Ngưỡng giá trị notional (USD) cho giao dịch. Chỉ lưu các giao dịch có giá trị notional (px * sz) lớn hơn hoặc bằng ngưỡng này.
 
+## Tính năng Monitor Storage
+
+Hệ thống bao gồm tính năng theo dõi kích thước dữ liệu theo thời gian. Tính năng này giúp bạn theo dõi lượng dữ liệu đã thu thập được và tốc độ tăng trưởng của dữ liệu.
+
+### Cách sử dụng
+
+Bạn có thể sử dụng công cụ CLI để xem thông tin kích thước dữ liệu:
+
+```bash
+# Xem kích thước hiện tại
+npm run storage-stats
+
+# Xem lịch sử kích thước
+npm run storage-stats history
+
+# Xem lịch sử kích thước cho một loại dữ liệu cụ thể
+npm run storage-stats history trades
+
+# Xem thống kê tăng trưởng
+npm run storage-stats growth
+
+# Xem thống kê tăng trưởng cho một loại dữ liệu cụ thể
+npm run storage-stats growth candle
+
+# Xem trợ giúp
+npm run storage-stats help
+```
+
+### Thông tin hiển thị
+
+Công cụ hiển thị kích thước dữ liệu theo các đơn vị:
+- Bytes
+- Kilobytes (KB)
+- Megabytes (MB)
+- Gigabytes (GB)
+- Terabytes (TB)
+
+Thống kê tăng trưởng cung cấp thông tin về:
+- Kích thước ban đầu
+- Kích thước hiện tại
+- Mức tăng trưởng (tuyệt đối và phần trăm)
+- Tốc độ tăng trưởng trung bình hàng ngày
+
 ## Đóng góp
 
 Nếu bạn muốn đóng góp vào dự án, vui lòng tạo một pull request hoặc mở một issue.

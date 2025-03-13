@@ -1,6 +1,8 @@
 import crawler from './services/crawler';
 import logger from './utils/logger';
 import { SubscriptionMessage } from './types';
+import storageMonitor from "./tasks/storage-monitor";
+import config from "./config";
 
 // Danh sách các coin muốn crawl
 const COINS = [
@@ -26,93 +28,104 @@ const CANDLE_INTERVALS: string[] = [
   // '1d',
 ];
 
+// Khoảng thời gian cập nhật thông tin kích thước (phút)
+const STORAGE_MONITOR_INTERVAL = Number(process.env.STORAGE_MONITOR_INTERVAL) || 60;
+
 // Hàm main
 async function main() {
   try {
-    logger.info('Starting Hyperliquid Crawler');
-    
+    logger.info("Starting Hyperliquid Crawler");
+
     // Khởi động crawler
     await crawler.start();
-    
+
+    // Khởi động storage monitor
+    storageMonitor.start();
+    logger.info(
+      `Started storage monitor with interval of ${STORAGE_MONITOR_INTERVAL} minutes`
+    );
+
     // Subscribe to allMids
     const allMidsSubscription: SubscriptionMessage = {
-      method: 'subscribe',
+      method: "subscribe",
       subscription: {
-        type: 'allMids',
+        type: "allMids",
       },
     };
     crawler.subscribe(allMidsSubscription);
-    
+
     // Subscribe to notification
     const notificationSubscription: SubscriptionMessage = {
-      method: 'subscribe',
+      method: "subscribe",
       subscription: {
-        type: 'notification',
+        type: "notification",
       },
     };
     crawler.subscribe(notificationSubscription);
-    
+
     // Subscribe to trades cho mỗi coin
     for (const coin of COINS) {
       const tradesSubscription: SubscriptionMessage = {
-        method: 'subscribe',
+        method: "subscribe",
         subscription: {
-          type: 'trades',
+          type: "trades",
           coin,
         },
       };
       crawler.subscribe(tradesSubscription);
-      
+
       // Đợi 1 giây trước khi subscribe tiếp để tránh rate limit
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+
       // Subscribe to l2Book cho mỗi coin
       const l2BookSubscription: SubscriptionMessage = {
-        method: 'subscribe',
+        method: "subscribe",
         subscription: {
-          type: 'l2Book',
+          type: "l2Book",
           coin,
         },
       };
       crawler.subscribe(l2BookSubscription);
-      
+
       // Đợi 1 giây trước khi subscribe tiếp để tránh rate limit
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+
       // Subscribe to candle cho mỗi coin và interval
       for (const interval of CANDLE_INTERVALS) {
         const candleSubscription: SubscriptionMessage = {
-          method: 'subscribe',
+          method: "subscribe",
           subscription: {
-            type: 'candle',
+            type: "candle",
             coin,
             interval,
           },
         };
         crawler.subscribe(candleSubscription);
-        
+
         // Đợi 500ms trước khi subscribe tiếp để tránh rate limit
-        await new Promise(resolve => setTimeout(resolve, 500));
+        await new Promise((resolve) => setTimeout(resolve, 500));
       }
     }
-    
-    logger.info('Subscribed to all channels');
-    
+
+    logger.info("Subscribed to all channels");
+
     // Xử lý khi nhận được signal để dừng ứng dụng
-    process.on('SIGINT', () => {
-      logger.info('Received SIGINT signal');
+    process.on("SIGINT", () => {
+      logger.info("Received SIGINT signal");
       crawler.stop();
+      storageMonitor.stop();
       process.exit(0);
     });
-    
-    process.on('SIGTERM', () => {
-      logger.info('Received SIGTERM signal');
+
+    process.on("SIGTERM", () => {
+      logger.info("Received SIGTERM signal");
       crawler.stop();
+      storageMonitor.stop();
       process.exit(0);
     });
-    
+
     // Giữ ứng dụng chạy
-    logger.info('Crawler is running. Press Ctrl+C to stop.');
+    logger.info("Crawler is running. Press Ctrl+C to stop.");
   } catch (error) {
     logger.error('Error in main function', error);
     process.exit(1);
