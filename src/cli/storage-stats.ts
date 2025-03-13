@@ -170,6 +170,7 @@ function showGrowthStats(specificType: string = "all"): void {
       chalk.bold("Current Size"),
       chalk.bold("Growth"),
       chalk.bold("Growth %"),
+      chalk.bold("Avg. Minute Growth"),
       chalk.bold("Avg. Daily Growth"),
     ],
   ];
@@ -193,16 +194,22 @@ function showGrowthStats(specificType: string = "all"): void {
     const growth = currentSize - initialSize;
     const growthPercent = (growth / initialSize) * 100;
 
-    // Tính số ngày giữa bản ghi đầu tiên và cuối cùng
+    // Tính số phút giữa bản ghi đầu tiên và cuối cùng
     const firstDate = new Date(firstEntry.timestamp);
     const lastDate = new Date(lastEntry.timestamp);
-    const daysDiff = Math.max(
+    const minutesDiff = Math.max(
       1,
-      (lastDate.getTime() - firstDate.getTime()) / (1000 * 60 * 60 * 24)
+      (lastDate.getTime() - firstDate.getTime()) / (1000 * 60)
     );
 
-    // Tính tăng trưởng trung bình hàng ngày
-    const avgDailyGrowth = growth / daysDiff;
+    // Tính số ngày giữa bản ghi đầu tiên và cuối cùng
+    const daysDiff = minutesDiff / (60 * 24);
+
+    // Tính tăng trưởng trung bình mỗi phút
+    const avgMinuteGrowth = growth / minutesDiff;
+
+    // Suy ra tăng trưởng trung bình hàng ngày từ tăng trưởng mỗi phút
+    const avgDailyGrowth = avgMinuteGrowth * 60 * 24;
 
     tableData.push([
       type,
@@ -212,6 +219,7 @@ function showGrowthStats(specificType: string = "all"): void {
       formatSize(currentSize),
       formatSize(growth),
       `${growthPercent.toFixed(2)}%`,
+      formatSize(avgMinuteGrowth),
       formatSize(avgDailyGrowth),
     ]);
   }
