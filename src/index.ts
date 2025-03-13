@@ -4,26 +4,26 @@ import { SubscriptionMessage } from './types';
 
 // Danh sách các coin muốn crawl
 const COINS = [
-  'BTC',
-  'ETH',
-  'SOL',
-  'AVAX',
-  'ARB',
-  'LINK',
-  'DOGE',
-  'MATIC',
-  'XRP',
-  'BNB',
+  "BTC",
+  // 'ETH',
+  // 'SOL',
+  // 'AVAX',
+  // 'ARB',
+  // 'LINK',
+  // 'DOGE',
+  // 'MATIC',
+  // 'XRP',
+  // 'BNB',
 ];
 
 // Danh sách các interval cho candle
-const CANDLE_INTERVALS = [
-  '1m',
-  '5m',
-  '15m',
-  '1h',
-  '4h',
-  '1d',
+const CANDLE_INTERVALS: string[] = [
+  // '1m',
+  // '5m',
+  // '15m',
+  // '1h',
+  // '4h',
+  // '1d',
 ];
 
 // Hàm main

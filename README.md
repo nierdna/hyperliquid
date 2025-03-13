@@ -38,6 +38,9 @@ DATA_DIR=./data
 
 # Cấu hình logging
 LOG_LEVEL=info
+
+# Ngưỡng giá trị notional (USD) cho giao dịch
+TRADE_NOTIONAL_THRESHOLD=100
 ```
 
 ## Sử dụng
@@ -101,6 +104,7 @@ Bạn có thể cấu hình ứng dụng bằng cách chỉnh sửa file `.env`:
 - **NETWORK**: Chọn mạng (MAINNET hoặc TESTNET).
 - **DATA_DIR**: Thư mục lưu trữ dữ liệu.
 - **LOG_LEVEL**: Level của log (debug, info, warn, error).
+- **TRADE_NOTIONAL_THRESHOLD**: Ngưỡng giá trị notional (USD) cho giao dịch. Chỉ lưu các giao dịch có giá trị notional (px * sz) lớn hơn hoặc bằng ngưỡng này.
 
 ## Đóng góp
 
