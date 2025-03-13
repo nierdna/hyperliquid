@@ -8,7 +8,8 @@
     "build": "tsc",
     "dev": "ts-node-dev --respawn src/index.ts",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "storage-stats": "ts-node src/cli/storage-stats.ts"
+    "storage-stats": "ts-node src/cli/storage-stats.ts",
+    "clear-data": "ts-node src/cli/clear-data.ts"
   },
   "keywords": [],
   "author": "",

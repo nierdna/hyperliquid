@@ -7,18 +7,15 @@ import config from "../config";
  */
 export class StorageMonitorTask {
   private intervalId: NodeJS.Timeout | null = null;
-  private intervalMinutes: number;
 
-  constructor(intervalMinutes: number = 60) {
-    this.intervalMinutes = intervalMinutes;
-  }
+  constructor() {}
 
   /**
    * Bắt đầu task monitor
    */
-  public start(): void {
+  public start(intervalMinutes: number = 60): void {
     logger.info(
-      `Starting storage monitor task with interval of ${this.intervalMinutes} minutes`
+      `Starting storage monitor task with interval of ${intervalMinutes} minutes`
     );
 
     // Chạy ngay lần đầu
@@ -27,7 +24,7 @@ export class StorageMonitorTask {
     // Thiết lập interval
     this.intervalId = setInterval(() => {
       this.updateStorageInfo();
-    }, this.intervalMinutes * 60 * 1000);
+    }, intervalMinutes * 60 * 1000);
   }
 
   /**

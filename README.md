@@ -155,4 +155,53 @@ Nếu bạn muốn đóng góp vào dự án, vui lòng tạo một pull request
 
 ## Giấy phép
 
-Dự án này được phân phối dưới giấy phép MIT. Xem file `LICENSE` để biết thêm chi tiết. 
+Dự án này được phân phối dưới giấy phép MIT. Xem file `LICENSE` để biết thêm chi tiết.
+
+## Các lệnh
+
+```bash
+# Khởi chạy ứng dụng
+npm start
+
+# Chạy ở chế độ development với auto-reload
+npm run dev
+
+# Build ứng dụng
+npm run build
+
+# Xem thống kê lưu trữ
+npm run storage-stats
+
+# Xóa dữ liệu
+npm run clear-data
+```
+
+## Xóa dữ liệu
+
+Ứng dụng cung cấp một script để xóa dữ liệu đã thu thập nhưng vẫn giữ nguyên cấu trúc thư mục. Bạn có thể sử dụng script này theo các cách sau:
+
+### Xóa tất cả dữ liệu
+
+```bash
+npm run clear-data
+```
+
+### Xóa dữ liệu trong các thư mục cụ thể
+
+```bash
+# Xóa dữ liệu trong thư mục candle và trades
+npm run clear-data -- candle trades
+
+# Xóa dữ liệu trong thư mục l2Book
+npm run clear-data -- l2Book
+```
+
+### Chạy ở chế độ dry-run (không thực sự xóa dữ liệu)
+
+```bash
+# Kiểm tra những gì sẽ bị xóa mà không thực sự xóa
+npm run clear-data -- --dry-run
+
+# Kiểm tra những gì sẽ bị xóa trong các thư mục cụ thể
+npm run clear-data -- --dry-run candle trades
+``` 

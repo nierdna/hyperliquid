@@ -40,7 +40,7 @@ async function main() {
     await crawler.start();
 
     // Khởi động storage monitor
-    storageMonitor.start();
+    storageMonitor.start(STORAGE_MONITOR_INTERVAL);
     logger.info(
       `Started storage monitor with interval of ${STORAGE_MONITOR_INTERVAL} minutes`
     );
