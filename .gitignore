@@ -1,0 +1,24 @@
+# Thư mục node_modules
+node_modules/
+
+# Thư mục dist
+dist/
+
+# Thư mục data
+data/
+
+# File .env
+.env
+
+# Log files
+*.log
+
+# Các file hệ thống
+.DS_Store
+Thumbs.db
+
+# IDE files
+.idea/
+.vscode/
+*.swp
+*.swo 
